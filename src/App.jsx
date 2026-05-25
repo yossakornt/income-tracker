@@ -94,26 +94,24 @@ export default function App() {
     }
   }, []);
 
-  // Load persisted data
+ // Load persisted data
   useEffect(() => {
     let cancelled = false;
-    const safeGet = async (key, fallback) => {
-      if (typeof window === 'undefined' || !window.storage) return fallback;
+    const safeGet = (key, fallback) => {
+      if (typeof window === 'undefined') return fallback;
       try {
-        const r = await window.storage.get(key);
-        if (!r || !r.value) return fallback;
-        return JSON.parse(r.value);
+        const val = window.localStorage.getItem(key);
+        if (!val) return fallback;
+        return JSON.parse(val);
       } catch { return fallback; }
     };
-    async function load() {
+    function load() {
       try {
-        const [p, e, b, s, w] = await Promise.all([
-          safeGet('procedures', []),
-          safeGet('entries', []),
-          safeGet('branches', DEFAULT_BRANCHES),
-          safeGet('schedule', DEFAULT_SCHEDULE),
-          safeGet('weeklyOverride', {}),
-        ]);
+        const p = safeGet('procedures', []);
+        const e = safeGet('entries', []);
+        const b = safeGet('branches', DEFAULT_BRANCHES);
+        const s = safeGet('schedule', DEFAULT_SCHEDULE);
+        const w = safeGet('weeklyOverride', {});
         if (cancelled) return;
         setProcedures(p);
         setEntries(e);
@@ -127,14 +125,12 @@ export default function App() {
       }
     }
     load();
-    // Safety net: if storage hangs, show the app anyway after 2s
-    const t = setTimeout(() => { if (!cancelled) setLoading(false); }, 2000);
-    return () => { cancelled = true; clearTimeout(t); };
+    return () => { cancelled = true; };
   }, []);
 
-  const persist = async (key, val) => {
-    if (typeof window === 'undefined' || !window.storage) return;
-    try { await window.storage.set(key, JSON.stringify(val)); }
+  const persist = (key, val) => {
+    if (typeof window === 'undefined') return;
+    try { window.localStorage.setItem(key, JSON.stringify(val)); }
     catch (e) { console.error('save failed', key, e); }
   };
   const saveProcedures = (next) => { setProcedures(next); persist('procedures', next); };
