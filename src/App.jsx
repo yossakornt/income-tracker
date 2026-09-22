@@ -22,7 +22,7 @@ const DEFAULT_SCHEDULE = {
   6: 'Terminal 21',
 };
 const DEFAULT_BRANCHES = ['Promenade', 'Seacon Bangkae', 'Seacon Srinakarind', 'Terminal 21', 'Esplanade'];
-const CHART_COLORS = ['#2d4a3a', '#c9956a', '#8a5a44', '#4d6b5a', '#b58c5e', '#6b8e7a', '#d4a574', '#a67c52'];
+const CHART_COLORS = ['#6b1e2e', '#b5485d', '#d98c95', '#8e3a44', '#c9a27e', '#4a1420', '#e6b8b0', '#9c6a70'];
 
 // Colors used to group entries per person (entry.color = index, or null = no group)
 const GROUP_COLORS = [
@@ -34,7 +34,7 @@ const GROUP_COLORS = [
   { dot: '#ef4444', bg: '#fde8e8', name: 'แดง' },
 ];
 // Colors selectable for procedure buttons
-const PROC_COLORS = ['#2d4a3a', '#c9956a', '#8a5a44', '#3b6ea5', '#b5476b', '#7a5ea8', '#c47d1c', '#4d8b8b'];
+const PROC_COLORS = ['#6b1e2e', '#c9956a', '#8a5a44', '#3b6ea5', '#b5476b', '#7a5ea8', '#c47d1c', '#4d8b8b'];
 
 const BACKUP_VERSION = 1;
 
@@ -98,14 +98,14 @@ const FONT_STYLE = `
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap');
 .font-serif-display { font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -0.01em; }
 .font-body { font-family: 'Manrope', sans-serif; }
-.app-bg { background: #f5f0e6; }
-.card { background: #ffffff; border: 1px solid #e8dfcd; }
-.accent { color: #2d4a3a; }
-.accent-bg { background: #2d4a3a; }
-.accent-light-bg { background: #e3ede5; }
-.divider { border-color: #ebe1cd; }
-.muted { color: #8a8074; }
-.warm-dark { color: #1f1a14; }
+.app-bg { background: #f7f0ef; }
+.card { background: #ffffff; border: 1px solid #ecdcdc; }
+.accent { color: #6b1e2e; }
+.accent-bg { background: #6b1e2e; }
+.accent-light-bg { background: #f5e3e6; }
+.divider { border-color: #eedede; }
+.muted { color: #8e7a7d; }
+.warm-dark { color: #231417; }
 .tap-scale:active { transform: scale(0.97); }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { scrollbar-width: none; }
@@ -345,7 +345,7 @@ export default function App() {
 
       <nav className="fixed bottom-0 left-0 right-0 z-40">
         <div className="max-w-md mx-auto px-4 pb-4">
-          <div className="card rounded-2xl flex justify-around p-1.5 shadow-lg" style={{ boxShadow: '0 8px 24px rgba(31,26,20,0.08)' }}>
+          <div className="card rounded-2xl flex justify-around p-1.5 shadow-lg" style={{ boxShadow: '0 8px 24px rgba(74,20,32,0.10)' }}>
             <NavBtn icon={<HomeIcon size={20} />} label="วันนี้" active={tab==='home'} onClick={() => setTab('home')} />
             <NavBtn icon={<History size={20} />} label="ย้อนหลัง" active={tab==='history'} onClick={() => setTab('history')} />
             <NavBtn icon={<BarChart3 size={20} />} label="สรุป" active={tab==='summary'} onClick={() => setTab('summary')} />
@@ -506,8 +506,8 @@ function EntryList({ entries, onDelete, onUpdate, emptyText }) {
             const gc = groupColor(g.color);
             return (
               <div key={i} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs"
-                style={{ background: gc ? gc.bg : '#f1ece2' }}>
-                <span className="w-2.5 h-2.5 rounded-full" style={{ background: gc ? gc.dot : '#b8ad9c' }} />
+                style={{ background: gc ? gc.bg : '#f4e9ea' }}>
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: gc ? gc.dot : '#bfa9ad' }} />
                 <span className="warm-dark">{g.count} รายการ · {formatMoney(g.total)}</span>
               </div>
             );
@@ -522,7 +522,7 @@ function EntryList({ entries, onDelete, onUpdate, emptyText }) {
               style={gc ? { background: gc.bg, boxShadow: `inset 4px 0 0 ${gc.dot}` } : undefined}>
               <button onClick={() => cycleColor(e)} aria-label="เปลี่ยนสี"
                 className="tap-scale w-5 h-5 rounded-full shrink-0 mr-3 border-2 border-white"
-                style={{ background: gc ? gc.dot : '#d6cdbd' }} />
+                style={{ background: gc ? gc.dot : '#dccbce' }} />
               <div className="min-w-0 flex-1">
                 <div className="text-sm warm-dark truncate">{e.name}</div>
                 <div className="text-[11px] muted mt-0.5 flex items-center gap-1.5">
@@ -1058,7 +1058,7 @@ function SummaryTab({ entries, viewMonth, setViewMonth, onSaveEntries, confirmat
                     </Pie>
                     <Tooltip
                       formatter={(v) => formatMoney(v) + ' บาท'}
-                      contentStyle={{ background: '#fff', border: '1px solid #e8dfcd', borderRadius: 12, fontSize: 12 }}
+                      contentStyle={{ background: '#fff', border: '1px solid #ecdcdc', borderRadius: 12, fontSize: 12 }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -1112,21 +1112,21 @@ function SummaryTab({ entries, viewMonth, setViewMonth, onSaveEntries, confirmat
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={dayData} margin={{ top: 5, right: 0, left: -28, bottom: 0 }}>
                     <XAxis
-                      dataKey="day" tick={{ fontSize: 9, fill: '#8a8074' }}
+                      dataKey="day" tick={{ fontSize: 9, fill: '#8e7a7d' }}
                       interval={2} axisLine={false} tickLine={false}
                     />
                     <YAxis
-                      tick={{ fontSize: 9, fill: '#8a8074' }}
+                      tick={{ fontSize: 9, fill: '#8e7a7d' }}
                       tickFormatter={formatMoneyShort}
                       axisLine={false} tickLine={false}
                     />
                     <Tooltip
                       formatter={(v) => formatMoney(v) + ' บาท'}
                       labelFormatter={(l) => `วันที่ ${l}`}
-                      contentStyle={{ background: '#fff', border: '1px solid #e8dfcd', borderRadius: 12, fontSize: 12 }}
-                      cursor={{ fill: 'rgba(45,74,58,0.05)' }}
+                      contentStyle={{ background: '#fff', border: '1px solid #ecdcdc', borderRadius: 12, fontSize: 12 }}
+                      cursor={{ fill: 'rgba(107,30,46,0.06)' }}
                     />
-                    <Bar dataKey="total" fill="#2d4a3a" radius={[3,3,0,0]} />
+                    <Bar dataKey="total" fill="#6b1e2e" radius={[3,3,0,0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -1290,7 +1290,7 @@ function SettingsTab({ procedures, onSaveProcedures, branches, onSaveBranches, s
         <ul className="card rounded-2xl divide-y divider overflow-hidden">
           {procedures.map(p => (
             <li key={p.id} className="flex items-center justify-between px-4 py-3">
-              <span className="w-3 h-3 rounded-full shrink-0 mr-3" style={{ background: p.color || '#e8dfcd' }} />
+              <span className="w-3 h-3 rounded-full shrink-0 mr-3" style={{ background: p.color || '#ecdcdc' }} />
               <div className="min-w-0 flex-1">
                 <div className="text-sm warm-dark truncate">{p.name}</div>
                 <div className="font-serif-display text-lg accent mt-0.5" style={p.color ? { color: p.color } : undefined}>{formatMoney(p.price)} <span className="text-xs muted">บาท</span></div>
